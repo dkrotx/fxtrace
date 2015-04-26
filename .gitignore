@@ -1,0 +1,41 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# compiled result file
+.libs
+src/fxtrace
+
+# GNU Autoconf and Automake
+INSTALL
+Makefile.in
+Makefile
+aclocal.m4
+autom4te.cache
+config.h
+config.h.in*
+config.log
+config.status
+/config/*
+configure
+.deps
+.dirstamp
+stamp-h1
+fxtrace-*.tar.gz
+libtool
+
+
+# Vim editor
+*.swp
+*.bak
+*~
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
