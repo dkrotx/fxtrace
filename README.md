@@ -50,7 +50,7 @@ this will show you, at least /bin/cat and /etc/fstab
 ### More advanced case:
 `$ fxtrace --log /tmp/fxtrace.txt --mode wr --prefix $HOME mc`
 
-In this case you will see all files which Midnight Commander read or write within your home directory.
+In this case you will see all files Midnight Commander read or write within your home directory.
 
 Also, see `fxtrace --help` or `man fxtrace` for more details.
 

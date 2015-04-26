@@ -112,9 +112,36 @@ Print all events to stderr\&.
 .RS 4
 Print usage and short notes about options\&.
 .RE
-.SH "SEE ALSO"
+.SH "EXAMPLES"
 .PP
-ld.so(8), strace(1), ltrace(1), auditd(8)
+Simplest usage is launching command providing just \fIlogfile\fR:
+.RE
+.RS 2
+
+$ fxtrace --log /tmp/fxtrace.txt cat /etc/fstab 
+
+.RE
+.RS 2
+this will log, at least /bin/cat and /etc/fstab in /tmp/fxtrace.txt
+.RE
+.PP
+More advanced usage is to provide more restict options:
+.RE 
+.RS 2
+
+$ fxtrace --log /tmp/fxtrace.txt --mode wr --prefix $HOME mc
+
+.RE
+.RS 2
+In this case you will see all files Midnight Commander read or write within your home directory.
 .SH "AUTHOR"
 .PP
 Kisel Jan <jdkrot@gmail\&.com>
+.SH "REPORTING BUGS"
+.PP
+Report fxtrace bugs to: https://github.com/dkrotx/fxtrace/issues
+.RE
+Fxtrace home page:      https://github.com/dkrotx/fxtrace
+.SH "SEE ALSO"
+.PP
+ld.so(8), strace(1), ltrace(1), auditd(8)

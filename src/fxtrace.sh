@@ -32,7 +32,7 @@ EXAMPLES:
   $ $progname --log /tmp/fxtrace.txt cat /etc/fstab
 
 - More advanced case:
-  $ $progname --log /tmp/fxtrace.txt --mode wsr --prefix \$HOME/etc mc
+  $ $progname --log /tmp/fxtrace.txt --mode wsr --prefix \$HOME mc
 
 ENDUSAGE
     exit ${USAGE_EXIT_CODE:-64}
