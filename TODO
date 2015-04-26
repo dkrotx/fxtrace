@@ -3,3 +3,5 @@
 - show initial STDIN/STDOUT as R/W. To handle cases as: fxtrace ... cat </etc/fstab
 - when installing as root, install to standard path with set-UID on .so. This will allow LD_PRELOAD-ing for set-UID binaries
 - trace creating a hardlinks
+- optionally log unsuccessfull calls too. At least on --debug.
+- do not allocate any memory within fxtrace.so since one-space-with-binary
