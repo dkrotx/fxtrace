@@ -82,7 +82,7 @@ fi
 [[ -n $FXTRACE_LOG ]] || usage "--log is necessary param"
 
 if [[ -n $FXTRACE_MODE ]]; then
-    rest=$( echo -n -- "$FXTRACE_MODE" | tr -d rwxs )
+    rest=$( echo -n "$FXTRACE_MODE" | tr -d rwxs )
     [[ -z $rest ]] || usage "extra symbol(s) in --mode ($rest)"
     export FXTRACE_MODE
 fi

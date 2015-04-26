@@ -1,0 +1,5 @@
+- handle --mode=rwx (use bash getopt or something simpler?
+- dlopen: show all libraries, properly resolving path
+- show initial STDIN/STDOUT as R/W. To handle cases as: fxtrace ... cat </etc/fstab
+- when installing as root, install to standard path with set-UID on .so. This will allow LD_PRELOAD-ing for set-UID binaries
+- trace creating a hardlinks

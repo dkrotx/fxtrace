@@ -35,30 +35,7 @@ fxtrace \- tool for tracing file acceess
 .SH "DESCRIPTION"
 .PP
 \fBFxtrace\fR
-is utility for \fIunpriveleged\fR tracing file access. It uses technique of replacing library calls with LD_PRELOAD and may be seen as alternative to strace and auditd.
-.PP
-With some benefits:
-.PP
-.RS 4
-- fxtrace does not require root priveleges or even system-wide installation like audit
-.RE
-.RS 4
-- it never "lose" events like auditd. Because it behaves like proxy, not as external notification mechanism
-.RE
-.RS 4
-- it will not hang your program like strace. Using strace -f with complicated programs is usually bad idea
-.RE
-.RS 4
-- it almost has not affect speed of IO like audit does\&.
-.RE
-.PP
-But also with some limitations:
-.PP
-.RS 4
-- fxtrace will not handle statically linked binaries
-.RE
-.RS 4
-- it will not "see" direct syscalls e.x. using 'int 0x80'\&.
+is utility for tracing file access. It uses technique of replacing library calls with LD_PRELOAD and may be seen as alternative to strace.
 .SH "OPTIONS"
 .PP
 \fB\-l\fR|\fB\-\-log\fR \fIlogfile\fR
@@ -144,4 +121,4 @@ Report fxtrace bugs to: https://github.com/dkrotx/fxtrace/issues
 Fxtrace home page:      https://github.com/dkrotx/fxtrace
 .SH "SEE ALSO"
 .PP
-ld.so(8), strace(1), ltrace(1), auditd(8)
+strace(1), ltrace(1)
