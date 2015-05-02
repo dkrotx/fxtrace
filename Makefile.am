@@ -16,6 +16,8 @@ src/fxtrace: src/fxtrace.sh
 	$(do_subst) < src/fxtrace.sh > src/fxtrace
 	chmod ugo+x src/fxtrace
 
+.PHONY: src/fxtrace
+
 
 libfxtrace_la_SOURCES = src/fxtrace.c
 libfxtrace_la_LDFLAGS = -version-info 0:1:0
