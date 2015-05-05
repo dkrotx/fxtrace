@@ -31,7 +31,7 @@
 fxtrace \- tool for tracing file acceess
 .SH "SYNOPSIS"
 .HP \w'\fBfxtrace\fR\ 'u
-\fBfxtrace\fR {\fB\-l\fR|\fB\-\-log\fR logfile} [\fB\-m\fR|\fB\-\-mode\fR access] [\fB-p\fR|\fB\-\-prefix\fR prefix] [\fB\-d\fR|\fB\-\-debug] [\-\-] cmd [...]
+\fBfxtrace\fR [\fB\-l\fR|\fB\-\-log\fR logfile] [\fB\-m\fR|\fB\-\-mode\fR access] [\fB-p\fR|\fB\-\-prefix\fR prefix] [\fB\-d\fR|\fB\-\-debug] [\-\-] cmd [...]
 .SH "DESCRIPTION"
 .PP
 \fBFxtrace\fR
@@ -40,7 +40,10 @@ is utility for tracing file access. It uses technique of replacing library calls
 .PP
 \fB\-l\fR|\fB\-\-log\fR \fIlogfile\fR
 .RS 4
-Log event to given file. Events being logged right after their performing. Each line of output file has following format:
+Log file access to given logfile. By default, fxtrace writes traces to fxtrace.log in current directory.
+.RE
+.RS 4
+Events being logged right after their performing. Each line of output file has following format:
 .RS 2
 
 access file
@@ -91,18 +94,18 @@ Print usage and short notes about options\&.
 .RE
 .SH "EXAMPLES"
 .PP
-Simplest usage is launching command providing just \fIlogfile\fR:
+Simplest usage:
 .RE
 .RS 2
 
-$ fxtrace --log /tmp/fxtrace.txt cat /etc/fstab 
+$ fxtrace cat /etc/fstab 
 
 .RE
 .RS 2
-this will log, at least /bin/cat and /etc/fstab in /tmp/fxtrace.txt
+this will log, at least /bin/cat and /etc/fstab in default logfile fxtrace.txt
 .RE
 .PP
-More advanced usage is to provide more restict options:
+More advanced usage is to provide restict-options:
 .RE 
 .RS 2
 

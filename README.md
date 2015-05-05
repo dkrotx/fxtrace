@@ -42,13 +42,13 @@ And perform `make install` instead of `sudo make install`
 
 ## USAGE
 
-### Simple case:
-`$ fxtrace --log /tmp/fxtrace.txt cat /etc/fstab`
+### Simple usage:
+`$ fxtrace cat /etc/fstab`
 
-this will show you, at least /bin/cat and /etc/fstab
+this will log, at least /bin/cat and /etc/fstab in file fxtrace.txt in current directory
   
 
-### More advanced case:
+### More advanced usage:
 `$ fxtrace --log /tmp/fxtrace.txt --mode wr --prefix $HOME mc`
 
 In this case you will see all files Midnight Commander read or write within your home directory.

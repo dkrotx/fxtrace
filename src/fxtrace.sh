@@ -4,7 +4,7 @@ set -e
 set -o pipefail
 
 FXTRACE_LIB_PATH=${FXTRACE_LIB_PATH=@FXTRACE_SO_DIR@/libfxtrace.so}
-
+FXTRACE_LOG=./fxtrace.log
 
 usage() {
     if [[ -n $1 ]]; then
@@ -14,10 +14,10 @@ usage() {
     local progname=$( basename $0 )
 
     cat - >&2 <<ENDUSAGE
-Usage: $progname {-l logfile} [-m mode] [-p prefix] [-d] cmd [...]
+Usage: $progname [-l logfile] [-m mode] [-p prefix] [-d] cmd [...]
 
 Options:
-  -l|--log:    trace operations to specified file (required)
+  -l|--log:    trace operations to specified file instead of $FXTRACE_LOG
   -m|--mode:   trace only specified operations. They are:
                  r - open for read
                  w - open for write
@@ -30,7 +30,7 @@ Options:
 EXAMPLES:
 
 - Simple case:
-  $ $progname --log /tmp/fxtrace.txt cat /etc/fstab
+  $ $progname cat /etc/fstab # $FXTRACE_LOG will contain log
 
 - More advanced case:
   $ $progname --log /tmp/fxtrace.txt --mode wsr --prefix \$HOME mc
@@ -94,7 +94,7 @@ if [[ $( expr index "$FXTRACE_LIB_PATH" / || true ) -ne 0 ]]; then
 fi
 
 [[ $# -gt 0 ]] || usage "no cmd param found"
-[[ -n $FXTRACE_LOG ]] || usage "--log is necessary param"
+[[ -n $FXTRACE_LOG ]] || usage "--log must not be empty"
 
 # FXTRACE_LOG must be absolute path, since subprocess will reopen logfile
 [[ ${FXTRACE_LOG:0:1} = '/' ]] || FXTRACE_LOG=$( readlink -f "$FXTRACE_LOG" )

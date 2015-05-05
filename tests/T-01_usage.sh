@@ -5,8 +5,13 @@
 . $( dirname $0 )/test.incl.sh
 
 ## most basic usage
-$__FXTRACE -l fxtrace.log cat /etc/passwd >/dev/null
+$__FXTRACE cat /etc/passwd >/dev/null
 assert_file_contains fxtrace.log "/bin/cat" "/etc/passwd"
+mv fxtrace.log fxtrace.log.orig
+
+## same as above, but pass another logfile. Result should be the same
+$__FXTRACE --log fxtracelog_special.txt cat /etc/passwd >/dev/null
+assert_files_equal fxtrace.log.orig fxtracelog_special.txt
 
 ## check end-of-options works well
 $__FXTRACE -l fxtrace.log -- cat /etc/passwd >/dev/null || err "end of options not recognized?"
