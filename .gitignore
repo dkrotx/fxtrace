@@ -39,3 +39,6 @@ libtool
 *.lai
 *.la
 *.a
+
+# temp files for tests
+tests/tmp
