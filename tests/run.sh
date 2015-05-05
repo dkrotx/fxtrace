@@ -34,6 +34,8 @@ __FXTRACE=$TESTDIR/../src/fxtrace
 [[ -x $__FXTRACE ]] || err "$__FXTRACE not found or not executable"
 
 export __FXTRACE
+# override FXTRACE_LIB_PATH. Relative path will force fxtrace to use LD_LIBRARY_PATH passed by libtool(1)
+export FXTRACE_LIB_PATH=libfxtrace.so
 cd $TESTDIR
 
 trap clear_tmp EXIT
@@ -51,7 +53,7 @@ for t in $( ls T-*.sh ); do
     printf "[%2d/%-2d] %-30s" $(( ++i )) $NTESTS $t
 
     rm -rf tmp && mkdir tmp
-    ( cd tmp && libtool --mode=execute --dlopen "$LIBDESCR" bash ../$t ) && print_ok || { print_failed; (( NFAILED++ )); }
+    ( cd tmp && libtool --mode=execute --dlopen "$LIBDESCR" bash "../$t" ) && print_ok || { print_failed; (( NFAILED++ )); }
 done
 
 echo "----------------------------------------"

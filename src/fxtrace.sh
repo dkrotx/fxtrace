@@ -3,7 +3,8 @@
 set -e
 set -o pipefail
 
-FXTRACE_LIB_PATH=@FXTRACE_SO_DIR@/libfxtrace.so
+FXTRACE_LIB_PATH=${FXTRACE_LIB_PATH=@FXTRACE_SO_DIR@/libfxtrace.so}
+
 
 usage() {
     if [[ -n $1 ]]; then
