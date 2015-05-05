@@ -49,6 +49,14 @@ err() {
     exit 1
 }
 
+extract_longopt_value() {
+    local var=$1
+    local value=${2#*=}
+
+    [[ -n $value ]] || usage
+    eval $var="$value"
+}
+
 ###############################################################################
 ## MAIN
 ###############################################################################
@@ -56,14 +64,20 @@ err() {
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-       -l|--log)    FXTRACE_LOG=$2;    shift 2 ;;
-       -m|--mode)   FXTRACE_MODE=$2;   shift 2 ;;
-       -p|--prefix) FXTRACE_PREFIX=$2; shift 2 ;;
-       -d|--debug)  FXTRACE_DEBUG=1;   shift   ;;
-       -h|--help)   USAGE_EXIT_CODE=0 usage; break ;;
-       --) shift; break ;;
-       -*) usage; break ;;
-       * ) break ;;
+        -l|--log)    FXTRACE_LOG=$2;    shift 2 ;;
+        -m|--mode)   FXTRACE_MODE=$2;   shift 2 ;;
+        -p|--prefix) FXTRACE_PREFIX=$2; shift 2 ;;
+
+        
+        --log=*)    extract_longopt_value FXTRACE_LOG "$1";    shift ;;
+        --mode=*)   extract_longopt_value FXTRACE_MODE "$1";   shift ;;
+        --prefix=*) extract_longopt_value FXTRACE_PREFIX "$1"; shift ;;
+
+        -d|--debug)  FXTRACE_DEBUG=1;   shift   ;;
+        -h|--help)   USAGE_EXIT_CODE=0 usage; break ;;
+        --) shift; break ;; # end of options
+        -*) usage; break ;; # unknown option
+        * ) break ;;        # hit 'cmd'
     esac
 done
 
