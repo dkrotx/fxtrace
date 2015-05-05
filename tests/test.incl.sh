@@ -1,3 +1,6 @@
+set -e
+set -o pipefail
+
 PrintCallStack()
 {
   echo "Call Stack: "
@@ -44,5 +47,5 @@ assert_file_not_contains() {
 
 assert_files_equal() {
     [[ $# -eq 2 ]] || err "assert_files_equal: bad invocation"
-    diff -U2 $1 $2 
+    diff -U2 $1 $2 || err "files $1 and $2 not equal"
 }

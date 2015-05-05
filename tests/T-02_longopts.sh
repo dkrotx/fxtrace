@@ -1,7 +1,6 @@
-## test actuality of usage
-
-set -e
-set -o pipefail
+###############################################################################
+## test long options syntax works well
+###############################################################################
 
 . $( dirname $0 )/test.incl.sh
 

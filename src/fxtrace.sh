@@ -85,16 +85,19 @@ done
 # check library only when it's path given
 if [[ $( expr index "$FXTRACE_LIB_PATH" / || true ) -ne 0 ]]; then
     if [[ ${FXTRACE_LIB_PATH:0:1} = '/' ]]; then
-        readlink -f "$FXTRACE_LIB_PATH" >/dev/null 2>&1 || err "$FXTRACE_LIB_PATH nor found or not proper link"
+        readlink -e "$FXTRACE_LIB_PATH" >/dev/null 2>&1 || err "$FXTRACE_LIB_PATH nor found or not proper link"
     else
         # do not allow relative path since cmd may do `cd somethere && exec something'
-        abspath=$( readlink -f "$FXTRACE_LIB_PATH" ) || err "requred lib ($FXTRACE_LIB_PATH) not found"
+        abspath=$( readlink -e "$FXTRACE_LIB_PATH" ) || err "requred lib ($FXTRACE_LIB_PATH) not found"
         FXTRACE_LIB_PATH=$abspath
     fi
 fi
 
 [[ $# -gt 0 ]] || usage "no cmd param found"
 [[ -n $FXTRACE_LOG ]] || usage "--log is necessary param"
+
+# FXTRACE_LOG must be absolute path, since subprocess will reopen logfile
+[[ ${FXTRACE_LOG:0:1} = '/' ]] || FXTRACE_LOG=$( readlink -f "$FXTRACE_LOG" )
 
 if [[ -n $FXTRACE_MODE ]]; then
     rest=$( echo -n "$FXTRACE_MODE" | tr -d rwxs )
@@ -103,7 +106,7 @@ if [[ -n $FXTRACE_MODE ]]; then
 fi
 
 if [[ -n $FXTRACE_PREFIX ]]; then
-    [[ ${FXTRACE_PREFIX:0:1} = '/' ]] || warn "prefix doesn't look as absolute path!\nTrace messages will not appear"
+    [[ ${FXTRACE_PREFIX:0:1} = '/' ]] || FXTRACE_PREFIX=$( readlink -m "$FXTRACE_PREFIX" )
     export FXTRACE_PREFIX
 fi
 

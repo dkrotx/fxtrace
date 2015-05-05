@@ -23,21 +23,22 @@ But also with some limitations:
 
 ## INSTALLATION
 
-### System-wide installation is usual:
+Installation is quiet standard:
 ```
 $ autoreconf -fiv
 $ ./configure
 $ make
+$ make test
 $ sudo make install
 ```
 
 ### Alternatively you can do a local installation:
+
+To install fxtrace locally, you may pass `--prefix` param to `./configure`. For example:
 ```
-$ autoreconf -fiv
 $ ./configure --prefix=$HOME/local # place your own prefix here
-$ make
-$ make install
 ```
+And perform `make install` instead of `sudo make install`
 
 ## USAGE
 
