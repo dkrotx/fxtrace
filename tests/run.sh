@@ -9,8 +9,7 @@ err() {
 }
 
 clear_tmp() {
-    :
-    # [[ -n $TESTDIR ]] && rm -rf "$TESTDIR/tmp"
+    [[ -n $TESTDIR ]] && rm -rf "$TESTDIR/tmp"
 }
 
 print_ok() {
