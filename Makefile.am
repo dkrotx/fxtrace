@@ -12,7 +12,9 @@ man_MANS = fxtrace.1
 EXTRA_DIST = fxtrace.1 src/fxtrace.sh tests
 
 
-src/fxtrace: src/fxtrace.sh
+# We have to re-create src/fxtrace after ./configure with, for example, another prefix
+# so depend on config.status. It should be changed every time after ./configure
+src/fxtrace: src/fxtrace.sh config.status
 	$(do_subst) < src/fxtrace.sh > src/fxtrace
 	chmod ugo+x src/fxtrace
 
@@ -25,9 +27,6 @@ test: src/fxtrace
 
 clean-local:
 	-rm -rf tests/tmp
-
-
-.PHONY: src/fxtrace
 
 
 libfxtrace_la_SOURCES = src/fxtrace.c
