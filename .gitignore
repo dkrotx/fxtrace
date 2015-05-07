@@ -42,3 +42,6 @@ libtool
 
 # temp files for tests
 tests/tmp
+
+# release subdirs
+fxtrace-*
