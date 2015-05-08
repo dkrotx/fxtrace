@@ -25,12 +25,14 @@
 
 typedef int (open_2_t)(const char *pathname, int flags);
 typedef int (open_t)(const char *pathname, int flags, mode_t mode);
+typedef int (creat_t)(const char *pathname, mode_t mode);
 typedef open_t open64_t;
 typedef open_2_t open64_2_t;
 typedef FILE *(fopen_t)(const char *filename, const char *modes);
 typedef fopen_t fopen64_t;
 
 typedef void *(dlopen_t)(const char *filename, int flag);
+
 
 typedef int (openat_t)(int dirfd, const char *pathname, int flags, mode_t mode);
 typedef openat_t openat64_t;
@@ -50,6 +52,7 @@ static openat64_t  *real_openat64;
 static dlopen_t    *real_dlopen;
 static stat_t      *real_stat, *real_lstat;
 static stat64_t    *real_stat64, *real_lstat64;
+static creat_t     *real_creat, *real_creat64;
 
 enum { FXTRACE_READ = 1, FXTRACE_WRITE = 2, FXTRACE_EXEC = 4, FXTRACE_STAT = 8 };
 static int    log_mask = -1U; /* log all events */
@@ -249,6 +252,8 @@ fxtrace_init(void)
     real_open_2   = (open_2_t *)realfn("__open_2");
     real_open64   = (open64_t *)realfn("open64");
     real_open64_2 = (open64_2_t *)realfn("__open64_2");
+    real_creat    = (creat_t *)realfn("creat");
+    real_creat64  = (creat_t *)realfn("creat64");
     real_openat   = (openat_t *)realfn("openat");
     real_openat64 = (openat64_t *)realfn("openat64");
     real_fopen    = (fopen_t *)realfn("fopen");
@@ -325,6 +330,39 @@ open64(const char *pathname, int flags, ...)
     if (fd != -1) {
         if (!( flags & O_DIRECTORY || is_directory_fd(fd) == 1 ))
             log_access(pathname, mask_from_open(flags));
+    }
+
+    return fd;
+}
+
+int
+creat(const char *pathname, mode_t mode)
+{
+    int fd;
+
+    CHECK_INITIALIZED;
+    log_debug("creat(%s, %d)", pathname, mode);
+
+    fd = (*real_creat)(pathname, mode);
+    if (fd != -1) {
+        log_access(pathname, mask_from_open(O_CREAT|O_WRONLY|O_TRUNC));
+    }
+
+    return fd;
+}
+
+
+int
+creat64(const char *pathname, mode_t mode)
+{
+    int fd;
+
+    CHECK_INITIALIZED;
+    log_debug("creat64(%s, %d)", pathname, mode);
+
+    fd = (*real_creat64)(pathname, mode);
+    if (fd != -1) {
+        log_access(pathname, mask_from_open(O_CREAT|O_WRONLY|O_TRUNC));
     }
 
     return fd;
