@@ -198,6 +198,13 @@ log_debug(const char *fmt, ...)
     }
 }
 
+static int
+is_directory_fd(int fd)
+{
+    struct stat st;
+    return (fstat(fd, &st) == -1) ? -1 : S_ISDIR(st.st_mode);
+}
+
 
 /* ========================================================================= */
 /* INITIALIZATION                                                            */
@@ -291,7 +298,8 @@ open(const char *pathname, int flags, ...)
 
     fd = (*real_open)(pathname, flags, creat_mode);
     if (fd != -1) {
-        log_access(pathname, mask_from_open(flags));
+        if (!( flags & O_DIRECTORY || is_directory_fd(fd) == 1 ))
+            log_access(pathname, mask_from_open(flags));
     }
 
     return fd;
@@ -315,7 +323,8 @@ open64(const char *pathname, int flags, ...)
 
     fd = (*real_open64)(pathname, flags, creat_mode);
     if (fd != -1) {
-        log_access(pathname, mask_from_open(flags));
+        if (!( flags & O_DIRECTORY || is_directory_fd(fd) == 1 ))
+            log_access(pathname, mask_from_open(flags));
     }
 
     return fd;
@@ -332,7 +341,8 @@ __open_2(const char *pathname, int flags)
 
     fd = (*real_open_2)(pathname, flags);
     if (fd != -1) {
-        log_access(pathname, mask_from_open(flags));
+        if (!( flags & O_DIRECTORY || is_directory_fd(fd) == 1 ))
+            log_access(pathname, mask_from_open(flags));
     }
 
     return fd;
@@ -349,7 +359,8 @@ __open64_2(const char *pathname, int flags)
 
     fd = (*real_open64_2)(pathname, flags);
     if (fd != -1) {
-        log_access(pathname, mask_from_open(flags));
+        if (!( flags & O_DIRECTORY || is_directory_fd(fd) == 1 ))
+            log_access(pathname, mask_from_open(flags));
     }
 
     return fd;
@@ -374,7 +385,8 @@ openat(int dirfd, const char *pathname, int flags, ...)
 
     fd = (*real_openat)(dirfd, pathname, flags, creat_mode);
     if (fd != -1) {
-        log_access_byfd(fd, mask_from_open(flags));
+        if (!( flags & O_DIRECTORY || is_directory_fd(fd) == 1 ))
+            log_access_byfd(fd, mask_from_open(flags));
     }
 
     return fd;
@@ -399,7 +411,8 @@ openat64(int dirfd, const char *pathname, int flags, ...)
 
     fd = (*real_openat64)(dirfd, pathname, flags, creat_mode);
     if (fd != -1) {
-        log_access_byfd(fd, mask_from_open(flags));
+        if (!( flags & O_DIRECTORY || is_directory_fd(fd) == 1 ))
+            log_access_byfd(fd, mask_from_open(flags));
     }
 
     return fd;
@@ -415,7 +428,7 @@ fopen(const char *pathname, const char *modes)
     log_debug("fopen(%s, %s)", pathname, modes);
 
     res = (*real_fopen)(pathname, modes);
-    if (res) {
+    if (res && is_directory_fd(fileno(res)) != 1) {
         log_access(pathname, mask_from_fopen(modes));
     }
 
@@ -431,7 +444,7 @@ fopen64(const char *pathname, const char *modes)
     log_debug("fopen64(%s, %s)", pathname, modes);
 
     res = (*real_fopen64)(pathname, modes);
-    if (res) {
+    if (res && is_directory_fd(fileno(res)) != 1) {
         log_access(pathname, mask_from_fopen(modes));
     }
 
@@ -448,7 +461,7 @@ generic_stat(int ver, stat_t *pfn, const char *path, struct stat *buf)
     log_debug("stat(%s)", path);
 
     ret = (*pfn)(ver, path, buf);
-    if (ret == 0) {
+    if (ret == 0 && !S_ISDIR(buf->st_mode)) {
         /* TODO: actualli we have to differ `stat' and `lstat' */
         log_access(path, FXTRACE_STAT);
     }
@@ -466,7 +479,7 @@ generic_stat64(int ver, stat64_t *pfn, const char *path, struct stat64 *buf)
     log_debug("stat64(%s)", path);
 
     ret = (*pfn)(ver, path, buf);
-    if (ret == 0) {
+    if (ret == 0 && !S_ISDIR(buf->st_mode)) {
         /* TODO: actualli we have to differ `stat' and `lstat' */
         log_access(path, FXTRACE_STAT);
     }

@@ -57,13 +57,13 @@ for t in $( ls T-*.sh ); do
     printf "[%2d/%-2d] %-30s" $(( ++i )) $NTESTS $t
 
     rm -rf tmp && mkdir tmp
-    ( cd tmp && bash "../$t" ) && print_ok || { print_failed; (( NFAILED++ )); }
+    ( cd tmp && bash "../$t" ) && print_ok || { print_failed; (( ++NFAILED )); }
 done
 
 echo "----------------------------------------"
 echo "$[ $NTESTS - $NFAILED ] test(s) passed, $NFAILED failed"
 
-[[ $NFAILED -eq 0 ]] || exit 1
+[[ $NFAILED -eq 0 ]] || { echo FAIL; exit 1; }
 
 echo SUCCESS
 exit 0

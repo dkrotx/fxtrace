@@ -49,3 +49,8 @@ assert_files_equal() {
     [[ $# -eq 2 ]] || err "assert_files_equal: bad invocation"
     diff -U2 $1 $2 || err "files $1 and $2 not equal"
 }
+
+getbinpath() {
+    # some modern distributions doesn't have which(1)
+    { which $1 || type -P $1; } 2>&1
+}
