@@ -2,7 +2,7 @@
 
 Fxtrace is utility for *unpriveleged* tracing file access.
 
-It uses technique of replacing library calls with LD_PRELOAD and may be seen as alternative to strace and auditd.
+It uses technique of proxying library calls with LD_PRELOAD and may be seen as alternative to strace and auditd.
 
 With some benefits:
 - fxtrace does not require root priveleges or even system-wide installation like audit
