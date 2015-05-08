@@ -24,7 +24,7 @@ For developing fxtrace you will need autoconf, automake and libtool installed
 ## INSTALLATION
 
 
-*If you downloaded repository, you have to launch `autoreconf -fiv` first*
+*If you downloaded repository, you have to launch* `autoreconf -fiv` *first*
 
 Installation usual:
 ```
