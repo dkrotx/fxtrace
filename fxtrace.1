@@ -31,30 +31,19 @@
 fxtrace \- tool for tracing file acceess
 .SH "SYNOPSIS"
 .HP \w'\fBfxtrace\fR\ 'u
-\fBfxtrace\fR [\fB\-l\fR|\fB\-\-log\fR logfile] [\fB\-m\fR|\fB\-\-mode\fR access] [\fB-p\fR|\fB\-\-prefix\fR prefix] [\fB\-d\fR|\fB\-\-debug] [\-\-] cmd [...]
+\fBfxtrace\fR [\fB\-l\fR|\fB\-\-log\fR logfile] [\fB\-m\fR|\fB\-\-mode\fR access] [\fB-p\fR|\fB\-\-prefix\fR prefix] [\fB-v\fR|\fB\-\-verbose\fR] [\fB\-d\fR|\fB\-\-debug] [\-\-] cmd [...]
 .SH "DESCRIPTION"
 .PP
 \fBFxtrace\fR
-is utility for tracing file access. It uses technique of replacing library calls with LD_PRELOAD and may be seen as alternative to strace.
+is utility for tracing file access. It uses technique of proxying library calls with LD_PRELOAD and may be seen as alternative to strace.
 .SH "OPTIONS"
 .PP
 \fB\-l\fR|\fB\-\-log\fR \fIlogfile\fR
 .RS 4
-Log file access to given logfile. By default, fxtrace writes traces to fxtrace.log in current directory.
+Log file access to given logfile. By default, fxtrace writes filenames to fxtrace.log in current directory.
 .RE
 .RS 4
-Events being logged right after their performing. Each line of output file has following format:
-.RS 2
-
-access file
-
-.RE .RE
-.RS 4
-Where access is one or several chars of rwxs, which stand for read, write, execute and stat correspondingly.\n
-.BL
-.RE
-.RS 4
-Do not confuse this with chmod(1): these rwxs about \fIhow\fR file is being used, not which attributes it has\&.
+Files will be logged right after their opening by executed program.
 .RE
 .PP
 \fB\-m|\-\-mode access\fR
@@ -83,6 +72,14 @@ Any combination of following modes can be used: r, rw, wrx, etc\&.
 Log only files which fullpath starts with given prefix\&.
 .RE
 .PP
+\fB\-v\fR|\fB\-\-verbose\fR
+.RS 4
+Do verbose output. Instead of logging just filenames, log how they are accessed too.
+.RE
+.RS 4
+Access is one or several chars of "rwxs", which are stand for read, write, execute and stat correspondingly. See \fB--mode\fR description\&.
+.RE
+.PP
 \fB-d\fR|\fB\-\-debug\fR
 .RS 4
 Print all events to stderr\&.
@@ -109,7 +106,7 @@ More advanced usage is to provide restict-options:
 .RE 
 .RS 2
 
-$ fxtrace --log /tmp/fxtrace.txt --mode wr --prefix $HOME mc
+$ fxtrace --verbose --log /tmp/fxtrace.txt --mode wr --prefix $HOME mc
 
 .RE
 .RS 2
@@ -124,4 +121,4 @@ Report fxtrace bugs to: https://github.com/dkrotx/fxtrace/issues
 Fxtrace home page:      https://github.com/dkrotx/fxtrace
 .SH "SEE ALSO"
 .PP
-strace(1), ltrace(1)
+strace(1)

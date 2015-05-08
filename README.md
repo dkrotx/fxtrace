@@ -49,7 +49,7 @@ this will log, at least /bin/cat and /etc/fstab in file fxtrace.txt in current d
   
 
 ### More advanced usage:
-`$ fxtrace --log /tmp/fxtrace.txt --mode wr --prefix $HOME mc`
+`$ fxtrace --verbose --log /tmp/fxtrace.txt --mode wr --prefix $HOME mc`
 
 In this case you will see all files Midnight Commander read or write within your home directory.
 

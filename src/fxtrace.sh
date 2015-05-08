@@ -24,8 +24,9 @@ Options:
                  x - execute
                  s - stat(2)
  
-  -p|--prefix: log only files which fullpath starts with given prefix
-  -d|--debug:  print each event to stderr
+  -p|--prefix:  log only files which fullpath starts with given prefix
+  -v|--verbose: log access-type among with files
+  -d|--debug:   print each event to stderr
 
 EXAMPLES:
 
@@ -64,17 +65,22 @@ extract_longopt_value() {
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        -l|--log)    FXTRACE_LOG=$2;    shift 2 ;;
-        -m|--mode)   FXTRACE_MODE=$2;   shift 2 ;;
-        -p|--prefix) FXTRACE_PREFIX=$2; shift 2 ;;
+        -l|--log)     FXTRACE_LOG=$2;     shift 2 ;;
+        -m|--mode)    FXTRACE_MODE=$2;    shift 2 ;;
+        -p|--prefix)  FXTRACE_PREFIX=$2;  shift 2 ;;
+        -v|--verbose) FXTRACE_VERBOSE=1;  shift ;;
+        -d|--debug)   FXTRACE_DEBUG=1;    shift ;;
+        -h|--help*)   USAGE_EXIT_CODE=0 usage; break ;;
 
         
         --log=*)    extract_longopt_value FXTRACE_LOG "$1";    shift ;;
         --mode=*)   extract_longopt_value FXTRACE_MODE "$1";   shift ;;
         --prefix=*) extract_longopt_value FXTRACE_PREFIX "$1"; shift ;;
 
-        -d|--debug)  FXTRACE_DEBUG=1;   shift   ;;
-        -h|--help)   USAGE_EXIT_CODE=0 usage; break ;;
+        # support GNU longops for booleans too (--verbose=1). why not?
+        --verbose=*) extract_longopt_value FXTRACE_VERBOSE "$1"; shift ;;
+        --debug=*)   extract_longopt_value FXTRACE_DEBUG "$1";   shift ;;
+
         --) shift; break ;; # end of options
         -*) usage; break ;; # unknown option
         * ) break ;;        # hit 'cmd'
@@ -111,6 +117,7 @@ if [[ -n $FXTRACE_PREFIX ]]; then
 fi
 
 [[ -n $FXTRACE_DEBUG ]] && export FXTRACE_DEBUG
+[[ -n $FXTRACE_VERBOSE ]] && export FXTRACE_VERBOSE
 
 # we have to clear logfile since fxtrace.so will only append to it
 : >$FXTRACE_LOG

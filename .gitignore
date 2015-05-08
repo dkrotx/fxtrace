@@ -45,3 +45,5 @@ tests/tmp
 
 # release subdirs
 fxtrace-*
+
+fxtrace.log

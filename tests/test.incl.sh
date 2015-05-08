@@ -51,6 +51,6 @@ assert_files_equal() {
 }
 
 getbinpath() {
-    # some modern distributions doesn't have which(1)
-    { which $1 || type -P $1; } 2>&1
+    # some modern distributions doesn't have which(1). type, instead, requred by POSIX
+    { type -P $1 || which $1; } 2>&1
 }
