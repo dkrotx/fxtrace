@@ -20,7 +20,8 @@ findpath=$( getbinpath find )
 assert_file_contains fxtrace.log "$catpath" "$findpath" "subdir/file.txt" "subdir/onemoredir/file2.txt"
 
 # check there is no dirs
-for f in $( cat fxtrace.log ); do
+for f in $( cut -f 2- fxtrace.log ); do
+    [[ -e $f ]] || err "file $f logged, but doesn't exists"
     if [[ -d $f ]]; then
         err "directory ($f) found in log, but should not!"
     fi

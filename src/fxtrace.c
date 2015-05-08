@@ -58,7 +58,6 @@ enum { FXTRACE_READ = 1, FXTRACE_WRITE = 2, FXTRACE_EXEC = 4, FXTRACE_STAT = 8 }
 static int    log_mask = -1U; /* log all events */
 static char   log_path_prefix[PATH_MAX];
 static int    debug_mode;
-static int    verbose_mode;
 static FILE  *log_file;
 static int __initialized = 0;
 
@@ -153,10 +152,7 @@ log_access(const char *file, int mode)
         char buf[8];
 
         if (!log_path_prefix[0] || !strncmp(path, log_path_prefix, strlen(log_path_prefix))) {
-            if (verbose_mode)
-                fprintf(log_file, "%s\t%s\n", mask2logstr(mode, &buf[0]), path);
-            else
-                fprintf(log_file, "%s\n", path);
+            fprintf(log_file, "%s\t%s\n", mask2logstr(mode, &buf[0]), path);
         }
     }
 }
@@ -240,7 +236,6 @@ fxtrace_init(void)
 
 
     debug_mode = check_env_nonzero("FXTRACE_DEBUG");
-    verbose_mode = check_env_nonzero("FXTRACE_VERBOSE");
 
     log_debug("fxtrace_init");
     logname = getenv("FXTRACE_LOG");

@@ -5,7 +5,6 @@ v0.2 [08.05.2015]
  - make --log param optional (by-default, write log to ./fxtrace.log)
  - do not log directories (seems to be useless)
  - support creat(2)
- - add --verbose flag: now print access only if -v|--verbose
 
 v0.1 [25.04.2015]
  - Initial import. Ready to use.

@@ -25,7 +25,6 @@ Options:
                  s - stat(2)
  
   -p|--prefix:  log only files which fullpath starts with given prefix
-  -v|--verbose: log access-type among with files
   -d|--debug:   print each event to stderr
 
 EXAMPLES:
@@ -68,7 +67,6 @@ while [[ $# -gt 0 ]]; do
         -l|--log)     FXTRACE_LOG=$2;     shift 2 ;;
         -m|--mode)    FXTRACE_MODE=$2;    shift 2 ;;
         -p|--prefix)  FXTRACE_PREFIX=$2;  shift 2 ;;
-        -v|--verbose) FXTRACE_VERBOSE=1;  shift ;;
         -d|--debug)   FXTRACE_DEBUG=1;    shift ;;
         -h|--help*)   USAGE_EXIT_CODE=0 usage; break ;;
 
@@ -77,8 +75,7 @@ while [[ $# -gt 0 ]]; do
         --mode=*)   extract_longopt_value FXTRACE_MODE "$1";   shift ;;
         --prefix=*) extract_longopt_value FXTRACE_PREFIX "$1"; shift ;;
 
-        # support GNU longops for booleans too (--verbose=1). why not?
-        --verbose=*) extract_longopt_value FXTRACE_VERBOSE "$1"; shift ;;
+        # support GNU longops for booleans too (--debug=1). why not?
         --debug=*)   extract_longopt_value FXTRACE_DEBUG "$1";   shift ;;
 
         --) shift; break ;; # end of options
@@ -117,7 +114,6 @@ if [[ -n $FXTRACE_PREFIX ]]; then
 fi
 
 [[ -n $FXTRACE_DEBUG ]] && export FXTRACE_DEBUG
-[[ -n $FXTRACE_VERBOSE ]] && export FXTRACE_VERBOSE
 
 # we have to clear logfile since fxtrace.so will only append to it
 : >$FXTRACE_LOG
