@@ -17,15 +17,17 @@ But also with some limitations:
 
 ## PREREQUISITES
 
-- Linux 2.6+
-- autoconf, automake, libtool 
+The only prerequisite is Linux 2.6+
+For developing fxtrace you will need autoconf, automake and libtool installed
 
 
 ## INSTALLATION
 
-Installation is quiet standard:
+
+*If you downloaded repository, you have to launch `autoreconf -fiv` first*
+
+Installation usual:
 ```
-$ autoreconf -fiv
 $ ./configure
 $ make
 $ make test

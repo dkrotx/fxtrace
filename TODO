@@ -1,4 +1,3 @@
-- make release/tag on github. So not require autoconf, automake and libtool from end-user (http://stackoverflow.com/questions/15745534/should-i-include-configure-and-makefile-in-a-github-repository http://stackoverflow.com/questions/6978954/add-binary-distribution-to-githubs-download-link)
 - make distcheck pass. Now it fails on VPATH-mode (http://www.gnu.org/software/automake/manual/html_node/Checking-the-Distribution.html)
 - dlopen: show all libraries, properly resolving path
 - show initial STDIN/STDOUT as R/W. To handle cases as: fxtrace ... cat </etc/fstab
