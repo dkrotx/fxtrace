@@ -1,3 +1,7 @@
+v0.3 [13.05.2015]
+ - fix bugs in tests
+ - make fxtrace more standard for GNU autotools
+
 v0.2 [08.05.2015]
  - Many changes and improvements.
  - tests added (run `make test' before installation)

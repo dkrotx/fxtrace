@@ -35,5 +35,5 @@ src/fxtrace: src/fxtrace.sh config.status
 
 
 libfxtrace_la_SOURCES = src/fxtrace.c
-libfxtrace_la_LDFLAGS = -version-info 0:1:0
+libfxtrace_la_LDFLAGS = -version-info 0:3:0
 libfxtrace_la_LIBADD = -ldl
