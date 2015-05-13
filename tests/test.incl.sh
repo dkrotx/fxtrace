@@ -67,8 +67,6 @@ STARTDIR=$( readlink -f $PWD )
 if [[ $INSTALLCHECK = "yes" ]]; then
     __FXTRACE=$AUTOTEST_PATH/fxtrace
     [[ -x $__FXTRACE ]] || err "$__FXTRACE not found or not executable. Do you performed make install?"
-
-    echo "checking in installation mode (fxtrace=$__FXTRACE)" >&2
 else
     __FXTRACE=$( readlink -e ./src/fxtrace )
     [[ -x $__FXTRACE ]] || err "$__FXTRACE not found or not executable. Do you performed make?"
@@ -79,8 +77,6 @@ else
     # Do not resolve last symlink.
     # Since being launched after install, it will be used exactly this way
     export FXTRACE_LIB_PATH=$( readlink -e $( dirname "$FXTRACE_LIB_PATH" ) )/libfxtrace.so
-
-    echo "checking in compiled mode (fxtrace=$__FXTRACE, FXTRACE_LIB_PATH=$FXTRACE_LIB_PATH)" >&2
 fi
 
 
