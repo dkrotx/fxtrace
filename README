@@ -30,7 +30,7 @@ Installation is usual:
 
     $ ./configure
     $ make
-    $ make test
+    $ make check
     $ sudo make install
 
 ### Alternatively you can do a local installation:

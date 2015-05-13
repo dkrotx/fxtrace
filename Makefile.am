@@ -11,6 +11,19 @@ do_subst = sed -e 's,[@]FXTRACE_SO_DIR[@],$(libdir),g'
 man_MANS = fxtrace.1
 EXTRA_DIST = fxtrace.1 src/fxtrace.sh tests
 
+TESTS = tests/T-01_usage.sh \
+	tests/T-02_longopts.sh \
+	tests/T-03_bugfix_relative_log.sh \
+	tests/T-04_relprefix.sh \
+	tests/T-05_nodirs.sh \
+	tests/T-06_access_flags.sh
+
+installcheck-local:
+	@echo Perfoming \`make check\` on installed binaries
+	INSTALLCHECK=yes; export INSTALLCHECK; \
+				 AUTOTEST_PATH=$(exec_prefix)/bin; export AUTOTEST_PATH; \
+				 $(MAKE) check
+
 
 # We have to re-create src/fxtrace after ./configure with, for example, another prefix
 # so depend on config.status. It should be changed every time after ./configure
@@ -18,15 +31,8 @@ src/fxtrace: src/fxtrace.sh config.status
 	$(do_subst) < src/fxtrace.sh > src/fxtrace
 	chmod ugo+x src/fxtrace
 
-test: src/fxtrace
-	@echo ========================================
-	@echo LAUNCHING TESTS
-	@echo ========================================
-	@cd tests && ./run.sh
-
-
 clean-local:
-	-rm -rf tests/tmp
+	-rm -rf tests/fxtrace-test.tmp.*
 
 
 libfxtrace_la_SOURCES = src/fxtrace.c

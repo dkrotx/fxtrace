@@ -1,6 +1,8 @@
 set -e
 set -o pipefail
 
+TMP_TEST_DIR=
+
 PrintCallStack()
 {
   echo "Call Stack: "
@@ -54,3 +56,36 @@ getbinpath() {
     # some modern distributions doesn't have which(1). type, instead, requred by POSIX
     { type -P $1 || which $1; } 2>&1
 }
+
+
+clear_tmp() {
+    [[ -n $TMP_TEST_DIR ]] && cd "$TESTDIR" && rm -rf "$TMP_TEST_DIR"
+}
+
+
+TESTDIR=$( readlink -f $( dirname "$0" ) )
+
+if [[ $INSTALLCHECK = "yes" ]]; then
+    __FXTRACE=$AUTOTEST_PATH/fxtrace
+    [[ -x $__FXTRACE ]] || err "$__FXTRACE not found or not executable. Do you performed make install?"
+
+    echo "checking in installation mode (fxtrace=$__FXTRACE)"
+else
+    __FXTRACE=$TESTDIR/../src/fxtrace
+    [[ -x $__FXTRACE ]] || err "$__FXTRACE not found or not executable. Do you performed make?"
+
+    FXTRACE_LIB_PATH=$( find "$TESTDIR/../" -name libfxtrace.so | head -n 1 )
+    [[ -n $FXTRACE_LIB_PATH ]] || err "libfxtrace.so not found. Did you compile sources?"
+
+    # Do not resolve last symlink.
+    # Since being launched after install, it will be used exactly this way
+    export FXTRACE_LIB_PATH=$( readlink -e $( dirname "$FXTRACE_LIB_PATH" ) )/libfxtrace.so
+
+    echo "checking in compiled mode (fxtrace=$__FXTRACE, FXTRACE_LIB_PATH=$FXTRACE_LIB_PATH)"
+fi
+
+
+TMP_TEST_DIR=$( readlink -e "$( TMPDIR=. mktemp -d fxtrace-test.tmp.XXXXXX )" )
+[[ -n $TMP_TEST_DIR ]] || err "Error creating temp dir"
+trap clear_tmp EXIT
+cd $TMP_TEST_DIR

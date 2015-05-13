@@ -41,7 +41,10 @@ libtool
 *.a
 
 # temp files for tests
-tests/tmp
+tests/fxtrace-test.tmp.*
+tests/*.trs
+tests/*.log
+test-suite.log
 
 # release subdirs
 fxtrace-*
