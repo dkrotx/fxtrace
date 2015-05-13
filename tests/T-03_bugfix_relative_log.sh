@@ -5,6 +5,7 @@
 ## then it's subprocess will fail to write logfile
 ###############################################################################
 
+set -e
 . $( dirname $0 )/test.incl.sh
 
 CAT_PATH=$( getbinpath cat )

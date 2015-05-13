@@ -4,6 +4,7 @@
 ## test actuality of usage
 ###############################################################################
 
+set -e
 . $( dirname $0 )/test.incl.sh
 
 CAT_PATH=$( getbinpath cat )

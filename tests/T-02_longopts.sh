@@ -4,6 +4,7 @@
 ## test long options syntax works well
 ###############################################################################
 
+set -e
 . $( dirname $0 )/test.incl.sh
 
 CAT_PATH=$( getbinpath cat )

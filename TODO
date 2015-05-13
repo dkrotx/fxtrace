@@ -1,5 +1,5 @@
-- make distcheck pass. Now it fails on VPATH-mode (http://www.gnu.org/software/automake/manual/html_node/Checking-the-Distribution.html)
 - dlopen: show all libraries, properly resolving path
+- trace removing
 - show initial STDIN/STDOUT as R/W. To handle cases as: fxtrace ... cat </etc/fstab
 - when installing as root, install to standard path with set-UID on .so. This will allow LD_PRELOAD-ing for set-UID binaries
 - trace creating hardlinks

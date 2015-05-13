@@ -9,7 +9,6 @@ lib_LTLIBRARIES = libfxtrace.la
 do_subst = sed -e 's,[@]FXTRACE_SO_DIR[@],$(libdir),g'
 
 man_MANS = fxtrace.1
-EXTRA_DIST = fxtrace.1 src/fxtrace.sh tests
 
 TESTS = tests/T-01_usage.sh \
 	tests/T-02_longopts.sh \
@@ -17,6 +16,9 @@ TESTS = tests/T-01_usage.sh \
 	tests/T-04_relprefix.sh \
 	tests/T-05_nodirs.sh \
 	tests/T-06_access_flags.sh
+
+
+EXTRA_DIST = $(man_MANS) src/fxtrace.sh $(TESTS) tests/test.incl.sh
 
 installcheck-local:
 	@echo Perfoming \`make check\` on installed binaries
@@ -28,11 +30,8 @@ installcheck-local:
 # We have to re-create src/fxtrace after ./configure with, for example, another prefix
 # so depend on config.status. It should be changed every time after ./configure
 src/fxtrace: src/fxtrace.sh config.status
-	$(do_subst) < src/fxtrace.sh > src/fxtrace
+	$(do_subst) <$(srcdir)/src/fxtrace.sh >src/fxtrace
 	chmod ugo+x src/fxtrace
-
-clean-local:
-	-rm -rf tests/fxtrace-test.tmp.*
 
 
 libfxtrace_la_SOURCES = src/fxtrace.c

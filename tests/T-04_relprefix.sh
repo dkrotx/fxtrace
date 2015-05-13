@@ -4,6 +4,7 @@
 ## relative path in --prefix is intuitive, hence should be supported
 ###############################################################################
 
+set -e
 . $( dirname $0 )/test.incl.sh
 
 CAT_PATH=$( getbinpath cat )

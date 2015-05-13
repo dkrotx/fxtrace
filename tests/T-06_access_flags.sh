@@ -4,6 +4,7 @@
 ## fxtrace print access-mode for files. Check they are correct
 ###############################################################################
 
+set -e
 . $( dirname $0 )/test.incl.sh
 
 mkdir subdir

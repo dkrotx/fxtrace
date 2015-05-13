@@ -5,6 +5,7 @@
 ## It's usually not interesting to see plenty of them in access-log
 ###############################################################################
 
+set -e
 . $( dirname $0 )/test.incl.sh
 
 CAT_PATH=$( getbinpath cat )
